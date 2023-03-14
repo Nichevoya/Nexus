@@ -23,7 +23,7 @@ namespace nexus {
                     explicit environment(const int ac, const char **av);
                     ~environment();
 
-                    void set_log_type(const terminal_log_type &log_type) { _log_type = log_type; format(); }
+                    void set_log_type(const terminal_log_type &log_type) { _log_type = log_type; }
 
                     const std::string &get_input(void) const { return _input; }
                     const terminal_log_type &get_log_type(void) const { return _log_type; }

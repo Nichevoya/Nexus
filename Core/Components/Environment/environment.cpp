@@ -15,6 +15,7 @@ void environment::initialization(void)
     while (this->_is_active && (get_input() != "no" || get_input() != "yes")) {
         log(terminal_log_type::message, "Do you wish to use the Nexus environment ? (yes/no)");
         set_log_type(terminal_log_type::nexus);
+        format();
         input();
         if (get_input() == "no") {
             this->_is_active = false;
@@ -37,6 +38,7 @@ void environment::format(void)
 void environment::log(const terminal_log_type &log_type, const std::string &message)
 {
     set_log_type(log_type);
+    format();
     std::cout << message << std::endl;
 }
 
