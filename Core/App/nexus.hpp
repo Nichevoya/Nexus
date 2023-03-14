@@ -3,7 +3,7 @@
 
 /* Source */
 #include "ressource.hpp"
-#include "terminal.hpp"
+#include "environment.hpp"
 #include "plugin.hpp"
 
 namespace nexus {
@@ -25,7 +25,7 @@ namespace nexus {
                 private:
                     // Components
                     components::plugin _plugin;
-                    components::terminal _input;
+                    components::environment _input;
             };
         
         } // app
