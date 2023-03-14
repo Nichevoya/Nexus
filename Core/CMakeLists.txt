@@ -1,7 +1,7 @@
 # Configuration
 set(APP "./App")
 set(COMMAND "./Components/Command")
-set(TERMINAL "./Components/Terminal")
+set(ENVIRONMENT "./Components/Environment")
 set(INTERFACE "./Interface")
 set(PLUGIN_LOADER "./Components/Plugin Loader")
 set(DYNAMIC_LIBRARY_LOADER "${CMAKE_SOURCE_DIR}/Library/Dynamic Library Loader")
@@ -11,7 +11,7 @@ set(HEADER
     ${APP}/ressource.hpp
     ${APP}/nexus.hpp
     ${COMMAND}/command.hpp
-    ${TERMINAL}/terminal.hpp
+    ${ENVIRONMENT}/environment.hpp
     ${INTERFACE}/graphic.hpp
     ${INTERFACE}/logic.hpp
     ${PLUGIN_LOADER}/plugin.hpp
@@ -22,7 +22,7 @@ set(SOURCE
     ${APP}/main.cpp
     ${APP}/nexus.cpp
     ${COMMAND}/command.cpp
-    ${TERMINAL}/terminal.cpp
+    ${ENVIRONMENT}/environment.cpp
     ${PLUGIN_LOADER}/plugin.cpp
 )
 
@@ -47,7 +47,7 @@ target_link_libraries(nexus.app nexus)
 target_include_directories(nexus PRIVATE 
     ${APP} 
     ${COMMAND}
-    ${TERMINAL}
+    ${ENVIRONMENT}
     ${INTERFACE} 
     ${PLUGIN_LOADER}
     ${DYNAMIC_LIBRARY_LOADER}
@@ -56,7 +56,7 @@ target_include_directories(nexus PRIVATE
 target_include_directories(nexus.app PRIVATE 
     ${APP} 
     ${COMMAND}
-    ${TERMINAL}
+    ${ENVIRONMENT}
     ${INTERFACE} 
     ${PLUGIN_LOADER}
     ${DYNAMIC_LIBRARY_LOADER}
