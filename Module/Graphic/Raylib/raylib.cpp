@@ -2,6 +2,8 @@
 
 using namespace nexus::module::graphic::library;
 
-raylib::raylib() {}
+extern "C" const std::unique_ptr<raylib> entry_point(void) { return std::make_unique<raylib>(); }
 
-raylib::~raylib() {}
+raylib::raylib() { logs("Raylib Start"); }
+
+raylib::~raylib() { logs("Raylib Start"); }
