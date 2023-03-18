@@ -44,13 +44,14 @@ namespace nexus {
                         status(const status &) = delete;
 
                         static status *get(void);
+                        void destroy(void) { delete get(); }
 
                         void set_status(const bool status) { get()->_is_active = status; }
                         bool is_active(void) { return get()->_is_active; }
 
                     protected:
-                        status() {}
-                        ~status() {}
+                        status() { logs("System status " << this->_is_active); }
+                        ~status() { logs("System status " << this->_is_active); }
                     private:
                         static status *_instance;
                         static std::mutex _mutex;
