@@ -12,7 +12,7 @@ void *static_library_loader::open_file(std::string const &file)
         err_logs("Library loader: " << error_logs());
         return nullptr;
     } else {
-        logs(file << ": opened");
+        logs("Library loader: " << file << ": opened");
         return _handler;
     }
 }
