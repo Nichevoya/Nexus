@@ -27,6 +27,9 @@ void command::list(const std::string &files) const
 
 void command::load(const std::string &file) const
 {
-    const auto &path = _plugin->get_list_at(std::atoi(file.c_str()));
-    if (path != "") _plugin->load(path);
+    const auto &position = std::atoi(file.c_str());
+    if (position != 0) {
+        const auto &path = _plugin->get_list_at(position - 1);
+        if (path != "") _plugin->load(path);
+    } else err_logs("Wrong file input");
 }
