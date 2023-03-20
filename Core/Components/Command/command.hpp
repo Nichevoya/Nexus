@@ -3,12 +3,15 @@
 
 /* Source */
 #include "ressource.hpp"
-#include "dynamic_library_loader.hpp"
+#include "plugin.hpp"
+#include "graphic.hpp"
+#include "logic.hpp"
 
 enum class command_type {
     none,
     help,
     quit,
+    list,
     load,
 };
 
@@ -27,13 +30,16 @@ namespace nexus {
 
                    const command_type &get_type(void) const { return _command_type; }
 
-                   void help(void);
-                   void quit(void);
-                   void load(void);
+                   void help(void) const;
+                   void quit(void) const;
+                   void list(void) const;
+                   void list(const std::string &files) const;
+                   void load(const std::string &file) const;
 
                protected:
                private:
                    command_type _command_type = command_type::none;
+                   components::plugin *_plugin = components::plugin::get();
                    app::integrity::status *_app = app::integrity::status::get();
             };
             
