@@ -22,10 +22,16 @@ namespace nexus {
                     void run(void);
                 
                 protected:
+                    void arguments(void) const;
+                    void initialization(void) const;
                 private:
+                    const int _ac;
+                    const char **_av;
+
                     // Components
-                    components::plugin _plugin;
-                    components::environment _input;
+                    components::environment _environment;
+                    components::plugin *_plugin = components::plugin::get();
+                    integrity::status *_app = integrity::status::get();
             };
         
         } // app
