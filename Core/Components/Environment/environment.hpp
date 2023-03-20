@@ -1,5 +1,5 @@
-#ifndef TERMINAL
-#define TERMINAL
+#ifndef ENVIRONMENT
+#define ENVIRONMENT
 
 /* Source */
 #include "ressource.hpp"
@@ -10,6 +10,7 @@ enum class terminal_log_type {
     nexus,
     message,
     error,
+    load,
 };
 
 namespace nexus {
@@ -20,7 +21,7 @@ namespace nexus {
 
             class environment {
                 public:
-                    explicit environment(const int ac, const char **av);
+                    explicit environment();
                     ~environment();
 
                     void set_log_type(const terminal_log_type &log_type) { _log_type = log_type; }
@@ -30,14 +31,15 @@ namespace nexus {
                     
                     void initialization(void);
 
-                    void format(void);
+                    void format(const terminal_log_type &log_type);
                     void log(const terminal_log_type &log_type, const std::string &message);
                     
-                    void read(void);
+                    void start(void);
                     
                     void input(void);
                     const std::string &input(const std::string &message);
-                    
+                    const std::string &input(const std::string &message, const terminal_log_type &log_type);
+
                     void set_command_type_from_input(void);
                     void action(void);
 
@@ -45,12 +47,8 @@ namespace nexus {
                 private:
                     bool _is_active = true;
 
-                    const int _ac;
-                    const char **_av;
-                    
                     std::string _input = "";
                     terminal_log_type _log_type = terminal_log_type::none;
-
                     command _command = command_type::none;
                     
                     app::integrity::status *_app = app::integrity::status::get();
@@ -63,4 +61,4 @@ namespace nexus {
 } // nexus
 
 
-#endif /* TERMINAL */
+#endif /* ENVIRONMENT */
