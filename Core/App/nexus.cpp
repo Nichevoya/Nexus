@@ -12,6 +12,7 @@ app::nexus::~nexus()
 {
     components::plugin::get()->destroy();
     integrity::status::get()->destroy();
+    for (auto &entry : _activities) if (entry.joinable()) entry.join();
     logs("Nexus stop");
 }
 
@@ -34,5 +35,5 @@ void app::nexus::initialization(void) const
 
 void app::nexus::run(void)
 {
-    _environment.start();
+    _activities.push_back(std::thread([&] () { _environment.start(); }));
 }

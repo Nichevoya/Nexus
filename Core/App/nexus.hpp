@@ -28,6 +28,9 @@ namespace nexus {
                     const int _ac;
                     const char **_av;
 
+                    // Thread pool
+                    std::vector<std::thread> _activities;
+
                     // Components
                     components::environment _environment;
                     components::plugin *_plugin = components::plugin::get();
