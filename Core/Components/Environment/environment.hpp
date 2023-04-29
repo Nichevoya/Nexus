@@ -11,6 +11,7 @@ enum class terminal_log_type {
     message,
     error,
     load,
+    list,
 };
 
 namespace nexus {

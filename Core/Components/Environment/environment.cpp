@@ -31,6 +31,7 @@ void environment::format(const terminal_log_type &log_type)
         case terminal_log_type::message: std::cout << "[message]: "; break;
         case terminal_log_type::error: std::cout << "[error]: "; break;
         case terminal_log_type::load: std::cout << "[load]: "; break;
+        case terminal_log_type::list: std::cout << "[list]: "; break;
         default: break;
     }
 }
@@ -84,7 +85,7 @@ void environment::action(void)
     switch (_command.get_type()) {
         case command_type::help: _command.help(); break;
         case command_type::quit: _command.quit(); break;
-        case command_type::list: _command.list(input("", terminal_log_type::nexus)); break;
+        case command_type::list: _command.list(input("", terminal_log_type::list)); break;
         case command_type::load: 
             log(terminal_log_type::message, "Load from : Module/"); _command.list();
             _command.load(input("", terminal_log_type::load)); break;
