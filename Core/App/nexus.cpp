@@ -19,7 +19,7 @@ void app::nexus::arguments(void) const
 {
     if (_av[1] != nullptr) return;
     else if (_av[1] != nullptr && _av[2] != nullptr) return;
-    else throw exception("Invalid arguments");
+    else return;
 }
 
 void app::nexus::initialization(void) const
@@ -28,6 +28,7 @@ void app::nexus::initialization(void) const
     switch (_ac) {
         case 2: _plugin->load(_av[1]); break;
         case 3: _plugin->load(_av[1]); _plugin->load(_av[2]); break;
+        default: break;
     }
 }
 
