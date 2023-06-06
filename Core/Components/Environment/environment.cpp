@@ -9,20 +9,6 @@ environment::environment()
 
 environment::~environment() { logs("Terminal component stop"); }
 
-void environment::initialization(void)
-{
-    while (this->_is_active && (get_input() != "no" || get_input() != "yes")) {
-        log(terminal_log_type::message, "Do you wish to use Nexus's environment ? (yes/no)");
-        format(terminal_log_type::nexus);
-        input();
-        if (get_input() == "no") {
-            this->_is_active = false;
-        } else if (get_input() == "yes") {
-            break;
-        }
-    }
-}
-
 void environment::format(const terminal_log_type &log_type)
 {
     set_log_type(log_type);
@@ -31,6 +17,7 @@ void environment::format(const terminal_log_type &log_type)
         case terminal_log_type::message: std::cout << "[message]: "; break;
         case terminal_log_type::error: std::cout << "[error]: "; break;
         case terminal_log_type::load: std::cout << "[load]: "; break;
+        case terminal_log_type::unload: std::cout << "[unload]: "; break;
         case terminal_log_type::list: std::cout << "[list]: "; break;
         default: break;
     }
@@ -42,15 +29,14 @@ void environment::log(const terminal_log_type &log_type, const std::string &mess
     std::cout << message << std::endl;
 }
 
-void environment::start(void)
+void environment::run(void)
 {
-    initialization();
-    while (_app->is_active() && this->_is_active) {
-        format(terminal_log_type::nexus);
-        input();
-        set_command_type_from_input();
-    }
+    if (!_status) return;
+    format(terminal_log_type::nexus);
+    input(); set_command_type_from_input();
 }
+
+void environment::stop(void) { _status = false; }
 
 void environment::input(void)
 {
@@ -76,6 +62,7 @@ void environment::set_command_type_from_input(void)
     else if (_input == "q" || _input == "quit") _command.set_type(command_type::quit);
     else if (_input == "ls" || _input == "list") _command.set_type(command_type::list);
     else if (_input == "load") _command.set_type(command_type::load);
+    else if (_input == "unload") _command.set_type(command_type::unload);
     else _command.set_type(command_type::none);
     action();
 }
@@ -89,6 +76,9 @@ void environment::action(void)
         case command_type::load: 
             log(terminal_log_type::message, "Load from : Module/"); _command.list();
             _command.load(input("", terminal_log_type::load)); break;
+        case command_type::unload:
+            log(terminal_log_type::message, "Unload : Game | Graphic");
+            _command.unload(input("", terminal_log_type::unload)); break;
         default: break;
     }
 }

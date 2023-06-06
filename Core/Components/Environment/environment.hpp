@@ -1,7 +1,7 @@
 #ifndef ENVIRONMENT
 #define ENVIRONMENT
 
-/* Source */
+/* --------------------------------- Source --------------------------------- */
 #include "ressource.hpp"
 #include "command.hpp"
 
@@ -11,6 +11,7 @@ enum class terminal_log_type {
     message,
     error,
     load,
+    unload,
     list,
 };
 
@@ -30,12 +31,11 @@ namespace nexus {
                     const std::string &get_input(void) const { return _input; }
                     const terminal_log_type &get_log_type(void) const { return _log_type; }
                     
-                    void initialization(void);
-
                     void format(const terminal_log_type &log_type);
                     void log(const terminal_log_type &log_type, const std::string &message);
                     
-                    void start(void);
+                    void run(void);
+                    void stop(void);
                     
                     void input(void);
                     const std::string &input(const std::string &message);
@@ -46,7 +46,7 @@ namespace nexus {
 
                 protected:
                 private:
-                    bool _is_active = true;
+                    bool _status = true;
 
                     std::string _input = "";
                     terminal_log_type _log_type = terminal_log_type::none;
