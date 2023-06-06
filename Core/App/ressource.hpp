@@ -1,7 +1,7 @@
 #ifndef RESSOURCE
 #define RESSOURCE
 
-/* Defines */
+/* --------------------------------- Define --------------------------------- */
 #define exit_success 0
 #define exit_failure -1
 #define fatal_error -2
@@ -9,7 +9,7 @@
 #define logs(message) std::cout << message << std::endl
 #define err_logs(message) std::cerr << message << std::endl
 
-/* Standard library */
+/* ---------------------------- Standard Library ---------------------------- */
 #include <iostream>
 #include <string>
 
@@ -22,14 +22,14 @@
 #include <vector>
 #include <map>
 
-/* Exception */
+/* -------------------------------- Exception ------------------------------- */
 class exception : public std::runtime_error {
     public: exception(const std::string &message) : std::runtime_error(message) { err_logs("Exception:"); }
 };
 
-/* Global scope */
+/* ------------------------------ Global ------------------------------ */
 
-/* App scope */
+/* -------------------------------- App ------------------------------- */
 namespace nexus {
 
     namespace core {
@@ -44,14 +44,14 @@ namespace nexus {
                         status(const status &) = delete;
 
                         static status *get(void);
-                        void destroy(void) { delete get(); }
+                        void destroy(void) const { delete get(); }
 
-                        void set_status(const bool status) { get()->_is_active = status; }
-                        bool is_active(void) { return get()->_is_active; }
+                        void set_status(const bool status) { _is_active = status; }
+                        bool is_active(void) const { return _is_active; }
 
                     protected:
-                        status() { logs("System status " << this->_is_active); }
-                        ~status() { logs("System status " << this->_is_active); }
+                        status() { logs("System status " << _is_active); }
+                        ~status() { logs("System status " << _is_active); }
                     private:
                         static status *_instance;
                         static std::mutex _mutex;

@@ -1,7 +1,7 @@
 #ifndef NEXUS
 #define NEXUS
 
-/* Source */
+/* --------------------------------- Source --------------------------------- */
 #include "ressource.hpp"
 #include "environment.hpp"
 #include "plugin.hpp"
@@ -22,14 +22,13 @@ namespace nexus {
                     void run(void);
                 
                 protected:
-                    void arguments(void) const;
                     void initialization(void) const;
+                    void plugin(void);
+                    void env(void);
+
                 private:
                     const int _ac;
                     const char **_av;
-
-                    // Thread pool
-                    std::vector<std::thread> _activities;
 
                     // Components
                     components::environment _environment;

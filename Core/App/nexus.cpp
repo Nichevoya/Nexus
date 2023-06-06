@@ -12,28 +12,37 @@ app::nexus::~nexus()
 {
     components::plugin::get()->destroy();
     integrity::status::get()->destroy();
-    for (auto &entry : _activities) if (entry.joinable()) entry.join();
     logs("Nexus stop");
-}
-
-void app::nexus::arguments(void) const
-{
-    if (_av[1] != nullptr) return;
-    else if (_av[1] != nullptr && _av[2] != nullptr) return;
-    else return;
 }
 
 void app::nexus::initialization(void) const
 {
-    arguments();
     switch (_ac) {
-        case 2: _plugin->load(_av[1]); break;
-        case 3: _plugin->load(_av[1]); _plugin->load(_av[2]); break;
+        case 2: _plugin->load(_av[1] != nullptr ? _av[1] : nullptr); break;
+        case 3: _plugin->load(_av[1] != nullptr ? _av[1] : nullptr); _plugin->load(_av[2] != nullptr ? _av[2] : nullptr); break;
         default: break;
     }
 }
 
+void app::nexus::plugin(void)
+{
+    switch (_plugin->get_game_state()) {
+        case active_plugin::lib_game: if (_plugin->get_lib_game()->status()) _plugin->get_lib_game()->update(); break;
+        default: break;
+    }
+
+    switch (_plugin->get_graphic_state()) {
+        case active_plugin::lib_graphic_2d: if (_plugin->get_lib_2d()->status()) _plugin->get_lib_2d()->update(); break;
+        case active_plugin::lib_graphic_3d: if (_plugin->get_lib_3d()->status()) _plugin->get_lib_3d()->update(); break;
+        default: break;
+    }
+}
+
+void app::nexus::env(void) { _environment.run(); }
+
 void app::nexus::run(void)
 {
-    _activities.push_back(std::thread([&] () { _environment.start(); }));
+    while (_app->is_active()) {
+        plugin(); env();
+    }
 }
