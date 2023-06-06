@@ -1,7 +1,7 @@
 #ifndef COMMAND
 #define COMMAND
 
-/* Source */
+/* --------------------------------- Source --------------------------------- */
 #include "ressource.hpp"
 #include "plugin.hpp"
 #include "graphic.hpp"
@@ -13,6 +13,7 @@ enum class command_type {
     quit,
     list,
     load,
+    unload,
 };
 
 namespace nexus {
@@ -35,6 +36,7 @@ namespace nexus {
                    void list(void) const;
                    void list(const std::string &files) const;
                    void load(const std::string &file) const;
+                   void unload(const std::string &file) const;
 
                protected:
                private:
