@@ -42,7 +42,7 @@ void app::nexus::env(void) { _environment.run(); }
 
 void app::nexus::run(void)
 {
-    while (_app->is_active()) {
+    while (_app->get_status()) {
         plugin(); env();
     }
 }

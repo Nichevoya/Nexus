@@ -46,16 +46,16 @@ namespace nexus {
                         static status *get(void);
                         void destroy(void) const { delete get(); }
 
-                        void set_status(const bool status) { _is_active = status; }
-                        bool is_active(void) const { return _is_active; }
+                        void set_status(const bool status) { _status = status; }
+                        bool get_status(void) const { return _status; }
 
                     protected:
-                        status() { logs("System status " << _is_active); }
-                        ~status() { logs("System status " << _is_active); }
+                        status() { logs("System status " << _status); }
+                        ~status() { logs("System status " << _status); }
                     private:
                         static status *_instance;
                         static std::mutex _mutex;
-                        bool _is_active = true;
+                        bool _status = true;
                 };
                 
             } // intergrity
