@@ -1,7 +1,7 @@
 #ifndef HUNTER
 #define HUNTER
 
-/* Source */
+/* --------------------------------- Source --------------------------------- */
 #include "ressource.hpp"
 #include "logic.hpp"
 
@@ -17,8 +17,13 @@ namespace nexus {
                 public:
                     hunter();
                     ~hunter();
+
+                    void update() override;
+                    bool status(void) const override;
+
                 protected:
                 private:
+                    bool _status = true;
             };
             
         } // logic

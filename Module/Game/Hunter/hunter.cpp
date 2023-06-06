@@ -7,3 +7,10 @@ extern "C" const std::unique_ptr<hunter> entry_point(void) { return std::make_un
 hunter::hunter() { logs("Hunter start"); }
 
 hunter::~hunter() { logs("Hunter stop"); }
+
+void hunter::update(void)
+{
+    
+}
+
+bool hunter::status(void) const { return _status; }

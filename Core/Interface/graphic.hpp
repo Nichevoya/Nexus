@@ -1,7 +1,7 @@
 #ifndef GRAPHIC
 #define GRAPHIC
 
-/* Source */
+/* --------------------------------- Source --------------------------------- */
 #include "ressource.hpp"
 
 namespace nexus {
@@ -15,6 +15,10 @@ namespace nexus {
                 class lib3D {
                     public:
                         virtual ~lib3D() = default;
+
+                        virtual void update(void) = 0;
+                        virtual bool status(void) const = 0;
+
                     protected:
                     private:
                 };
@@ -22,6 +26,11 @@ namespace nexus {
                 class lib2D {
                     public:
                         virtual ~lib2D() = default;
+
+                        virtual void update(void) = 0;
+                        virtual bool status(void) const = 0;
+
+
                     protected:
                     private:
                 };

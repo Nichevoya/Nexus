@@ -1,11 +1,11 @@
 #ifndef SFML
 #define SFML
 
-/* Source */
+/* --------------------------------- Source --------------------------------- */
 #include "ressource.hpp"
 #include "graphic.hpp"
 
-/* SFML */
+/* ---------------------------------- SFML ---------------------------------- */
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -26,8 +26,13 @@ namespace nexus {
                     public:
                         sfml();
                         ~sfml();
+
+                        void update() override;
+                        bool status(void) const override;
+
                     protected:
                     private:
+                        bool _status = true;
                 };
                 
             } // library

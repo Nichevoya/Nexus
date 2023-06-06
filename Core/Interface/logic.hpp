@@ -1,7 +1,7 @@
 #ifndef LOGIC
 #define LOGIC
 
-/* Source */
+/* --------------------------------- Source --------------------------------- */
 #include "ressource.hpp"
 
 namespace nexus {
@@ -15,6 +15,10 @@ namespace nexus {
                 class game {
                     public:
                         virtual ~game() = default;
+
+                        virtual void update(void) = 0;
+                        virtual bool status(void) const = 0;
+
                     protected:
                     private:
                 };
