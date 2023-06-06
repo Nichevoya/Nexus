@@ -1,11 +1,11 @@
 #ifndef RAYLIB
 #define RAYLIB
 
-/* Source */
+/* --------------------------------- Source --------------------------------- */
 #include "ressource.hpp"
 #include "graphic.hpp"
 
-/* Raylib */
+/* --------------------------------- Raylib --------------------------------- */
 #include "raylib.h"
 
 namespace nexus {
@@ -22,6 +22,11 @@ namespace nexus {
                     public:
                         raylib();
                         ~raylib();
+
+                        void initialization(void) const;
+                        void update(void) override;
+                        bool status(void) const override;
+
                     protected:
                     private:
                 };
