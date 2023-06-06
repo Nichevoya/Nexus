@@ -46,45 +46,47 @@ void plugin::load(const std::string &plugin)
 {
     const auto &load = find(plugin);
     if (load.first && load.second.substr(10, 4) == "Game")
-        _game == nullptr ? (_game = _game_lib.load_unique<interface::logic::game>(plugin, "entry_point"))
-        : (remove("Game"), _game = _game_lib.load_unique<interface::logic::game>(plugin, "entry_point"));
+        if (_game == nullptr) { set_game_state(active_plugin::lib_game); _game = _game_lib.load_unique<interface::logic::game>(plugin, "entry_point"); }
+        else { this->unload("Game"); this->load(plugin); }
     else if (load.first && load.second.substr(10, 7) == "Graphic")
         if (load.second.substr(18, 2) == "2D") {
-            (_graphic_2D == nullptr || _graphic_3D == nullptr) ? (_graphic_2D = _graphic_lib.load_unique<interface::graphic::lib2D>(plugin, "entry_point"))
-            : (remove("Graphic"), _graphic_2D = _graphic_lib.load_unique<interface::graphic::lib2D>(plugin, "entry_point"));
+            if (_graphic_2d == nullptr) { set_graphic_state(active_plugin::lib_graphic_2d); _graphic_2d = _graphic_lib.load_unique<interface::graphic::lib2D>(plugin, "entry_point"); }
+            else { this->unload("Graphic"); this->load(plugin); }
         } else if (load.second.substr(18, 2) == "3D") {
-            (_graphic_3D == nullptr || _graphic_2D == nullptr) ? (_graphic_3D = _graphic_lib.load_unique<interface::graphic::lib3D>(plugin, "entry_point"))
-            : (remove("Graphic"), _graphic_3D = _graphic_lib.load_unique<interface::graphic::lib3D>(plugin, "entry_point"));
+            if (_graphic_3d == nullptr) { set_graphic_state(active_plugin::lib_graphic_3d); _graphic_3d = _graphic_lib.load_unique<interface::graphic::lib3D>(plugin, "entry_point"); }
+            else { this->unload("Graphic"); this->load(plugin); }
         }
 }
 
-void plugin::remove(const std::string &plugin)
+void plugin::unload(void)
 {
-    if (plugin == "Game") {
-        _game->~game();
+    if (_game != nullptr) {
+        _game_state = active_plugin::none;
         _game = nullptr;
         _game_lib.free();
-    } else if (plugin == "Graphic") {
-        _graphic_2D->~lib2D();
-        _graphic_3D->~lib3D();
-        _graphic_2D = nullptr;
-        _graphic_3D = nullptr;
+    }
+    if (_graphic_2d != nullptr) {
+        _graphic_state = active_plugin::none;
+        _graphic_2d = nullptr;
+        _graphic_lib.free();
+    }
+    if (_graphic_3d != nullptr) {
+        _graphic_state = active_plugin::none;
+        _graphic_3d = nullptr;
         _graphic_lib.free();
     }
 }
 
-void plugin::clear(void)
+void plugin::unload(const std::string &plugin)
 {
-    if (_game != nullptr) {
+    if (plugin == "Game" && _game != nullptr) {
+        _game_state = active_plugin::none;
         _game = nullptr;
         _game_lib.free();
-    }
-    if (_graphic_2D != nullptr) {
-        _graphic_2D = nullptr;
-        _graphic_lib.free();
-    }
-    if (_graphic_3D != nullptr) {
-        _graphic_3D = nullptr;
+    } else if (plugin == "Graphic" && (_graphic_2d != nullptr || _graphic_3d != nullptr)) {
+        _graphic_state = active_plugin::none;
+        _graphic_2d = nullptr;
+        _graphic_3d = nullptr;
         _graphic_lib.free();
     }
 }
