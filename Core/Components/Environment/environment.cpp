@@ -38,16 +38,16 @@ void environment::run(void)
 
 void environment::stop(void) { _status = false; }
 
-void environment::input(void)
+const std::string &environment::input(void)
 {
     std::getline(std::cin, _input);
+    return _input;
 }
 
 const std::string &environment::input(const std::string &message)
 {
     if (!message.empty()) log(terminal_log_type::message, message);
-    std::getline(std::cin, _input);
-    return _input;
+    return input();
 }
 
 const std::string &environment::input(const std::string &message, const terminal_log_type &log_type)

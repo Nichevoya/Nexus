@@ -37,7 +37,7 @@ namespace nexus {
                     void run(void);
                     void stop(void);
                     
-                    void input(void);
+                    const std::string &input(void);
                     const std::string &input(const std::string &message);
                     const std::string &input(const std::string &message, const terminal_log_type &log_type);
 
