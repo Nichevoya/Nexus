@@ -22,6 +22,8 @@ namespace nexus {
 
         namespace components {
 
+            using namespace nexus::core::app;
+
             class command {
                 public:
                    command(const command_type &command_type);
@@ -41,8 +43,6 @@ namespace nexus {
                protected:
                private:
                    command_type _command_type = command_type::none;
-                   components::plugin *_plugin = components::plugin::get();
-                   app::integrity::status *_app = app::integrity::status::get();
             };
             
         } // components

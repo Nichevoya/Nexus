@@ -15,28 +15,28 @@ void command::help(void) const
     logs("\tlist - recursively list files into your console, it always starts from app binary location");
 }
 
-void command::quit(void) const { _app->set_status(false); }
+void command::quit(void) const { integrity::status::get().set_status(false); }
 
 void command::list(void) const
 {
-    _plugin->list();
+    components::plugin::get().list();
 }
 
 void command::list(const std::string &directory) const
 {
-    _plugin->list(directory);
+    components::plugin::get().list(directory);
 }
 
 void command::load(const std::string &file) const
 {
     const auto &position = std::atoi(file.c_str());
     if (position != 0) {
-        const auto &path = _plugin->get_list_at(position - 1);
-        if (path != "") _plugin->load(path);
+        const auto &path = components::plugin::get().get_list_at(position - 1);
+        if (path != "") components::plugin::get().load(path);
     } else err_logs("Wrong file input");
 }
 
 void command::unload(const std::string &file) const
 {
-    _plugin->unload(file);
+    components::plugin::get().unload(file);
 }
