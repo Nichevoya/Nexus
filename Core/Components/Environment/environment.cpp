@@ -2,12 +2,18 @@
 
 using namespace nexus::core::components;
 
-environment::environment()
-{
-    logs("Terminal component start");
-}
+std::atomic<bool> interruptFlag(false);
 
-environment::~environment() { logs("Terminal component stop"); }
+environment::environment() { logs("Terminal component start"); run(); }
+
+environment::~environment()
+{
+    // _input_timeout.detach();
+    // _input_listenner.detach();
+    if (_input_timeout.joinable()) _input_timeout.join();
+    if (_input_listenner.joinable()) _input_listenner.join(); stop();
+    logs("Terminal component stop");
+}
 
 void environment::format(const terminal_log_type &log_type)
 {
@@ -31,12 +37,32 @@ void environment::log(const terminal_log_type &log_type, const std::string &mess
 
 void environment::run(void)
 {
-    if (!_status) return;
-    format(terminal_log_type::nexus);
-    input(); set_command_type_from_input();
+    _input_timeout = std::thread([&] () {
+        while (!interruptFlag) {
+            if (!integrity::status::get().get_status()) {
+                // logs("Interrupt Handler: Interrupt signal received. Stopping worker thread.");
+                interruptFlag = true; break;
+            } else {
+                // logs("Interrupt Handler: Handling interrupt...");
+                std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            }
+        }
+    });
+
+    _input_listenner = std::thread([&] () {
+        while (!interruptFlag) {
+            if (integrity::status::get().get_status()) {
+                format(terminal_log_type::nexus);
+                input(); set_command_type_from_input();
+                // logs("Worker Thread: Executing task...");
+            } else break;
+        }
+    });
 }
 
 void environment::stop(void) { _status = false; }
+
+bool environment::status(void) const { return _status; }
 
 const std::string &environment::input(void)
 {

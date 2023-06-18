@@ -36,6 +36,8 @@ namespace nexus {
                     
                     void run(void);
                     void stop(void);
+
+                    bool status(void) const;
                     
                     const std::string &input(void);
                     const std::string &input(const std::string &message);
@@ -48,11 +50,12 @@ namespace nexus {
                 private:
                     bool _status = true;
 
+                    std::mutex _mutex;
+                    std::thread _input_listenner, _input_timeout;
+
                     std::string _input = "";
                     terminal_log_type _log_type = terminal_log_type::none;
                     command _command = command_type::none;
-                    
-                    app::integrity::status *_app = app::integrity::status::get();
             };
             
         } // components
