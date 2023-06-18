@@ -6,21 +6,37 @@
 #define exit_failure -1
 #define fatal_error -2
 
-#define logs(message) std::cout << message << std::endl
-#define err_logs(message) std::cerr << message << std::endl
+#ifdef DEBUG
+    #define logs(message) std::cout << message << std::endl
+    #define err_logs(message) std::cerr << message << std::endl
+#else
+    #define logs(message)
+    #define err_logs(message)
+#endif
 
 /* ---------------------------- Standard Library ---------------------------- */
 #include <iostream>
 #include <string>
+#include <assert.h>
 
 #include <filesystem>
+
+#include <typeinfo>
+#include <bitset>
+#include <set>
 
 #include <memory>
 #include <thread>
 #include <mutex>
 
+#include <chrono>
+
+#include <unordered_map>
 #include <vector>
+#include <array>
+#include <queue>
 #include <map>
+
 
 /* -------------------------------- Exception ------------------------------- */
 class exception : public std::runtime_error {
@@ -43,18 +59,20 @@ namespace nexus {
                         void operator=(const status &) = delete;
                         status(const status &) = delete;
 
-                        static status *get(void);
-                        void destroy(void) const { delete get(); }
+                        static status &get(void) { static status instance; return instance; };
 
-                        void set_status(const bool status) { _status = status; }
-                        bool get_status(void) const { return _status; }
+                        void set_status(const bool status) { get()._status = status; }
+                        bool get_status(void) const { return get()._status; }
 
                     protected:
-                        status() { logs("System status " << _status); }
-                        ~status() { logs("System status " << _status); }
                     private:
-                        static status *_instance;
-                        static std::mutex _mutex;
+                        status() { logs("System status " << _status); }
+                        ~status()
+                        {
+                            set_status(false);
+                            logs("System status " << _status);
+                        }
+
                         bool _status = true;
                 };
                 

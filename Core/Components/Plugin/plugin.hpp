@@ -25,19 +25,18 @@ namespace nexus {
                     void operator=(const plugin &) = delete;
                     plugin(const plugin &) = delete;
 
-                    static plugin *get(void);
-                    void destroy(void) const { delete get(); }
+                    static plugin &get(void) { static plugin instance; return instance; }
 
-                    const std::string get_list_at(const std::size_t position) const { if (position < _list.size() && position >= 0) return _list.at(position); return ""; }
+                    const std::string get_list_at(const std::size_t position) const { if (position < get()._list.size() && position >= 0) return get()._list.at(position); return ""; }
                     
-                    const std::unique_ptr<interface::logic::game> &get_lib_game(void) const { return _game; }
-                    const std::unique_ptr<interface::graphic::lib2D> &get_lib_2d(void) const { return _graphic_2d; }
-                    const std::unique_ptr<interface::graphic::lib3D> &get_lib_3d(void) const { return _graphic_3d; }
-                    const active_plugin &get_game_state(void) const { return _game_state; }
-                    const active_plugin &get_graphic_state(void) const { return _graphic_state; }
+                    const std::unique_ptr<interface::logic::game> &get_lib_game(void) const { return get()._game; }
+                    const std::unique_ptr<interface::graphic::lib2D> &get_lib_2d(void) const { return get()._graphic_2d; }
+                    const std::unique_ptr<interface::graphic::lib3D> &get_lib_3d(void) const { return get()._graphic_3d; }
+                    const active_plugin &get_game_state(void) const { return get()._game_state; }
+                    const active_plugin &get_graphic_state(void) const { return get()._graphic_state; }
 
-                    void set_game_state(const active_plugin active_plugin) { _game_state = active_plugin; }
-                    void set_graphic_state(const active_plugin active_plugin) { _graphic_state = active_plugin; }
+                    void set_game_state(const active_plugin active_plugin) { get()._game_state = active_plugin; }
+                    void set_graphic_state(const active_plugin active_plugin) { get()._graphic_state = active_plugin; }
 
                     const std::pair<bool, const std::string> find(const std::string &plugin);
                     void list(void);
@@ -45,13 +44,17 @@ namespace nexus {
                     void load(const std::string &plugin);
                     void unload(void);
                     void unload(const std::string &plugin);
+                    
+                    bool game_status(void) const;
+                    bool graphic_status(void) const;
+                    void update_game(void);
+                    void update_graphic(void);
 
                 protected:
-                    plugin() { logs("Plugin loader component start"); }
-                    ~plugin() { unload(); logs("Plugin loader component stop"); }
                 private:
-                    static plugin *_instance;
-                    static std::mutex _mutex;
+                    plugin() { logs("Plugin component start"); }
+                    ~plugin() { unload(); logs("Plugin component stop"); }
+
                     std::vector<std::string> _list;
                     dynamic_library_loader _game_lib;
                     dynamic_library_loader _graphic_lib;
