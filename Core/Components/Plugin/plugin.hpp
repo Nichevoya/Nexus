@@ -29,9 +29,15 @@ namespace nexus {
 
                     const std::string get_list_at(const std::size_t position) const { if (position < get()._list.size() && position >= 0) return get()._list.at(position); return ""; }
                     
+                    std::unique_ptr<interface::logic::game> &get_lib_game(void) { return get()._game; }
                     const std::unique_ptr<interface::logic::game> &get_lib_game(void) const { return get()._game; }
+                    
+                    std::unique_ptr<interface::graphic::lib2D> &get_lib_2d(void) { return get()._graphic_2d; }
                     const std::unique_ptr<interface::graphic::lib2D> &get_lib_2d(void) const { return get()._graphic_2d; }
+                    
+                    std::unique_ptr<interface::graphic::lib3D> &get_lib_3d(void) { return get()._graphic_3d; }
                     const std::unique_ptr<interface::graphic::lib3D> &get_lib_3d(void) const { return get()._graphic_3d; }
+                    
                     const active_plugin &get_game_state(void) const { return get()._game_state; }
                     const active_plugin &get_graphic_state(void) const { return get()._graphic_state; }
 
