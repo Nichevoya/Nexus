@@ -3,7 +3,7 @@ set(APP "./App")
 set(COMMAND "./Components/Command")
 set(ENVIRONMENT "./Components/Environment")
 set(INTERFACE "./Interface")
-set(PLUGIN_LOADER "./Components/Plugin Loader")
+set(PLUGIN_LOADER "./Components/Plugin")
 set(DYNAMIC_LIBRARY_LOADER "${CMAKE_SOURCE_DIR}/Library/Dynamic Library Loader")
 
 # Source
@@ -18,7 +18,6 @@ set(HEADER
 )
 
 set(SOURCE
-    ${APP}/ressource.cpp
     ${APP}/main.cpp
     ${APP}/nexus.cpp
     ${COMMAND}/command.cpp
