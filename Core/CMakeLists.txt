@@ -5,6 +5,7 @@ set(ENVIRONMENT "./Components/Environment")
 set(INTERFACE "./Interface")
 set(PLUGIN_LOADER "./Components/Plugin")
 set(DYNAMIC_LIBRARY_LOADER "${CMAKE_SOURCE_DIR}/Library/Dynamic Library Loader")
+set(ENGINE "./Engine")
 
 # Source
 set(HEADER
@@ -15,6 +16,10 @@ set(HEADER
     ${INTERFACE}/graphic.hpp
     ${INTERFACE}/logic.hpp
     ${PLUGIN_LOADER}/plugin.hpp
+    ${ENGINE}/component.hpp
+    ${ENGINE}/coordinator.hpp
+    ${ENGINE}/entity.hpp
+    ${ENGINE}/system.hpp
 )
 
 set(SOURCE
@@ -40,6 +45,9 @@ add_executable(nexus.app
     ${HEADER}
     ${SOURCE}
 )
+
+# Project compilation flags
+target_compile_options(nexus PRIVATE -Wall -Wextra -Werror -Wpedantic -g)
 
 target_link_libraries(nexus.app nexus)
 
