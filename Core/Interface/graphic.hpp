@@ -30,6 +30,8 @@ namespace nexus {
                         virtual void update(void) = 0;
                         virtual bool status(void) const = 0;
 
+                        virtual void set_texture_file_list(const std::map<std::string, std::vector<std::string>> &texture_file_list) = 0;
+
 
                     protected:
                     private:
