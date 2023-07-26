@@ -20,19 +20,25 @@ namespace nexus {
 
             namespace library {
 
-                using namespace nexus::core::interface::graphic;
-
-                class sfml : public lib2D {
+                class sfml : public nexus::core::interface::graphic::lib2D {
                     public:
                         sfml();
                         ~sfml();
 
-                        void update() override;
+                        void initialisation(void);
+                        void update(void) override;
+                            void event_update(void);
+                        
                         bool status(void) const override;
+
+                        void set_texture_file_list(const std::map<std::string, std::vector<std::string>> &texture_file_list) override;
 
                     protected:
                     private:
-                        bool _status = true;
+                        sf::Event _event;
+                        sf::RenderWindow _window;
+
+                        std::map<std::string, std::vector<std::string>> _texture_file_list;
                 };
                 
             } // library
